@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Flutter Web to GitHub Pages & Firebase
 
 on:
   push:
@@ -6,12 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy-github:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+      uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -24,8 +24,22 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release --base-href="/${{ github.event.repository.name }}/"
 
+      # -------------------------
+      # Deploy to GitHub Pages
+      # -------------------------
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
+
+      # -------------------------
+      # Deploy to Firebase Hosting
+      # -------------------------
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_14472 }}
+          channelId: live
+          projectId: portfolio-14472
