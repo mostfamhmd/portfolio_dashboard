@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-      uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -24,18 +24,12 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release --base-href="/${{ github.event.repository.name }}/"
 
-      # -------------------------
-      # Deploy to GitHub Pages
-      # -------------------------
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
 
-      # -------------------------
-      # Deploy to Firebase Hosting
-      # -------------------------
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
