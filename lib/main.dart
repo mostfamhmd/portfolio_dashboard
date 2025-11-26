@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import 'services/storage_service.dart';
@@ -14,16 +13,15 @@ import 'screens/experience_screen.dart';
 import 'screens/social_links_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'widgets/loading_widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Initialize Hive
-  await Hive.initFlutter();
+
   final storageService = StorageService();
-  await storageService.init();
 
   runApp(PortfolioDashboardApp(storageService: storageService));
 }
@@ -77,6 +75,19 @@ class PortfolioDashboardApp extends StatelessWidget {
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
         routerConfig: _router,
+        builder: (context, child) {
+          return Consumer<PortfolioProvider>(
+            builder: (context, provider, _) {
+              if (provider.isLoading) {
+                return const DashboardLoadingScreen();
+              }
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: child ?? const SizedBox.shrink(),
+              );
+            },
+          );
+        },
       ),
     );
   }

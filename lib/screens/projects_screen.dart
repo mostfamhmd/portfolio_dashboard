@@ -71,82 +71,78 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: projects.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.folder_outlined, size: 64),
-                      const SizedBox(height: 16),
-                      const Text('No projects yet'),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Add your first project to showcase your work',
-                      ),
-                    ],
-                  ),
-                )
-              : Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: projects.map((project) {
-                    return SizedBox(
-                      width: 350,
-                      child: GradientCard(
-                        hasGlassEffect: false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    project.title,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleLarge,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () =>
-                                          _showAddEditDialog(project: project),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () =>
-                                          _deleteProject(project.id),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              project.description,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 12),
-                            Wrap(
-                              spacing: 8,
-                              children: project.technologies.map((tech) {
-                                return Chip(label: Text(tech));
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+        child: projects.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.folder_outlined, size: 64),
+                    const SizedBox(height: 16),
+                    const Text('No projects yet'),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Add your first project to showcase your work',
+                    ),
+                  ],
                 ),
-        ),
+              )
+            : Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: projects.map((project) {
+                  return SizedBox(
+                    width: 350,
+                    child: GradientCard(
+                      hasGlassEffect: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  project.title,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () =>
+                                        _showAddEditDialog(project: project),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () => _deleteProject(project.id),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            project.description,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 12),
+                          Wrap(
+                            spacing: 8,
+                            children: project.technologies.map((tech) {
+                              return Chip(label: Text(tech));
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
       ),
     );
   }
@@ -167,7 +163,8 @@ class _ProjectDialogState extends State<_ProjectDialog> {
   late TextEditingController _descriptionController;
   late TextEditingController _imageUrlController;
   late TextEditingController _technologiesController;
-  late TextEditingController _projectUrlController;
+  late TextEditingController _playStoreUrlController;
+  late TextEditingController _appStoreUrlController;
   late TextEditingController _githubUrlController;
   bool _isFeatured = false;
   bool _isLoading = false;
@@ -185,8 +182,11 @@ class _ProjectDialogState extends State<_ProjectDialog> {
     _technologiesController = TextEditingController(
       text: widget.project?.technologies.join(', ') ?? '',
     );
-    _projectUrlController = TextEditingController(
-      text: widget.project?.projectUrl ?? '',
+    _playStoreUrlController = TextEditingController(
+      text: widget.project?.playStoreUrl ?? '',
+    );
+    _appStoreUrlController = TextEditingController(
+      text: widget.project?.appStoreUrl ?? '',
     );
     _githubUrlController = TextEditingController(
       text: widget.project?.githubUrl ?? '',
@@ -200,7 +200,8 @@ class _ProjectDialogState extends State<_ProjectDialog> {
     _descriptionController.dispose();
     _imageUrlController.dispose();
     _technologiesController.dispose();
-    _projectUrlController.dispose();
+    _playStoreUrlController.dispose();
+    _appStoreUrlController.dispose();
     _githubUrlController.dispose();
     super.dispose();
   }
@@ -218,14 +219,14 @@ class _ProjectDialogState extends State<_ProjectDialog> {
         .toList();
 
     final project = Project(
-      id:
-          widget.project?.id ??
+      id: widget.project?.id ??
           DateTime.now().millisecondsSinceEpoch.toString(),
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
       imageUrl: _imageUrlController.text.trim(),
       technologies: technologies,
-      projectUrl: _projectUrlController.text.trim(),
+      playStoreUrl: _playStoreUrlController.text.trim(),
+      appStoreUrl: _appStoreUrlController.text.trim(),
       githubUrl: _githubUrlController.text.trim(),
       isFeatured: _isFeatured,
     );
@@ -271,7 +272,6 @@ class _ProjectDialogState extends State<_ProjectDialog> {
                   },
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
                   label: 'Description',
                   controller: _descriptionController,
@@ -284,35 +284,36 @@ class _ProjectDialogState extends State<_ProjectDialog> {
                   },
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
                   label: 'Image URL',
                   controller: _imageUrlController,
                   keyboardType: TextInputType.url,
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
                   label: 'Technologies (comma separated)',
                   hint: 'Flutter, Dart, Firebase',
                   controller: _technologiesController,
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
-                  label: 'Project URL',
-                  controller: _projectUrlController,
+                  label: 'Play Store URL',
+                  controller: _playStoreUrlController,
                   keyboardType: TextInputType.url,
                 ),
                 const SizedBox(height: 16),
-
+                CustomTextField(
+                  label: 'App Store URL',
+                  controller: _appStoreUrlController,
+                  keyboardType: TextInputType.url,
+                ),
+                const SizedBox(height: 16),
                 CustomTextField(
                   label: 'GitHub URL',
                   controller: _githubUrlController,
                   keyboardType: TextInputType.url,
                 ),
                 const SizedBox(height: 16),
-
                 CheckboxListTile(
                   title: const Text('Featured Project'),
                   value: _isFeatured,

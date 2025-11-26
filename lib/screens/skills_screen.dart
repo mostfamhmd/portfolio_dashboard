@@ -71,91 +71,84 @@ class _SkillsScreenState extends State<SkillsScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: skills.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.psychology_outlined, size: 64),
-                      const SizedBox(height: 16),
-                      const Text('No skills yet'),
-                      const SizedBox(height: 8),
-                      const Text('Add your first skill to get started'),
-                    ],
-                  ),
-                )
-              : Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: skills.map((skill) {
-                    return SizedBox(
-                      width: 350,
-                      child: GradientCard(
-                        hasGlassEffect: false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        skill.name,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        skill.category,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodySmall,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
+        child: skills.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.psychology_outlined, size: 64),
+                    const SizedBox(height: 16),
+                    const Text('No skills yet'),
+                    const SizedBox(height: 8),
+                    const Text('Add your first skill to get started'),
+                  ],
+                ),
+              )
+            : Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: skills.map((skill) {
+                  return SizedBox(
+                    width: 350,
+                    child: GradientCard(
+                      hasGlassEffect: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () =>
-                                          _showAddEditDialog(skill: skill),
+                                    Text(
+                                      skill.name,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge,
                                     ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () => _deleteSkill(skill.id),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      skill.category,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall,
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: LinearProgressIndicator(
-                                    value: skill.proficiency / 100,
-                                    minHeight: 8,
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () =>
+                                        _showAddEditDialog(skill: skill),
                                   ),
-                                ),
-                                const SizedBox(width: 12),
-                                Text('${skill.proficiency}%'),
-                              ],
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () => _deleteSkill(skill.id),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Chip(
+                              label: Text(
+                                skill.category,
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  }).toList(),
-                ),
-        ),
+                    ),
+                  );
+                }).toList(),
+              ),
       ),
     );
   }
@@ -174,7 +167,6 @@ class _SkillDialogState extends State<_SkillDialog> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late String _category;
-  late double _proficiency;
   bool _isLoading = false;
 
   final List<String> _categories = [
@@ -192,7 +184,6 @@ class _SkillDialogState extends State<_SkillDialog> {
     super.initState();
     _nameController = TextEditingController(text: widget.skill?.name ?? '');
     _category = widget.skill?.category ?? _categories[0];
-    _proficiency = (widget.skill?.proficiency ?? 50).toDouble();
   }
 
   @override
@@ -210,7 +201,6 @@ class _SkillDialogState extends State<_SkillDialog> {
     final skill = Skill(
       id: widget.skill?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
       name: _nameController.text.trim(),
-      proficiency: _proficiency.round(),
       category: _category,
     );
 
@@ -251,7 +241,6 @@ class _SkillDialogState extends State<_SkillDialog> {
                 },
               ),
               const SizedBox(height: 16),
-
               DropdownButtonFormField<String>(
                 value: _category,
                 decoration: const InputDecoration(labelText: 'Category'),
@@ -261,24 +250,6 @@ class _SkillDialogState extends State<_SkillDialog> {
                 onChanged: (value) {
                   setState(() => _category = value!);
                 },
-              ),
-              const SizedBox(height: 16),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Proficiency: ${_proficiency.round()}%'),
-                  Slider(
-                    value: _proficiency,
-                    min: 0,
-                    max: 100,
-                    divisions: 20,
-                    label: '${_proficiency.round()}%',
-                    onChanged: (value) {
-                      setState(() => _proficiency = value);
-                    },
-                  ),
-                ],
               ),
             ],
           ),

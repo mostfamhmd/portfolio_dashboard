@@ -18,102 +18,99 @@ class DashboardScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Portfolio Dashboard',
-                style: Theme.of(context).textTheme.displaySmall,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Manage your portfolio content',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Portfolio Dashboard',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Manage your portfolio content',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
 
-              const SizedBox(height: 32),
+            const SizedBox(height: 32),
 
-              // Statistics
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                children: [
-                  _StatCard(
-                    title: 'Projects',
-                    value: provider.projects.length.toString(),
-                    icon: Icons.work_outline,
-                    gradient: AppColors.primaryGradient,
-                  ),
-                  _StatCard(
-                    title: 'Skills',
-                    value: provider.skills.length.toString(),
-                    icon: Icons.stars_outlined,
-                    gradient: AppColors.secondaryGradient,
-                  ),
-                  _StatCard(
-                    title: 'Experiences',
-                    value: provider.experiences.length.toString(),
-                    icon: Icons.business_center_outlined,
-                    gradient: AppColors.accentGradient,
-                  ),
-                  _StatCard(
-                    title: 'Social Links',
-                    value: provider.socialLinks.length.toString(),
-                    icon: Icons.link,
-                    gradient: AppColors.successGradient,
-                  ),
-                ],
-              ),
+            // Statistics
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                _StatCard(
+                  title: 'Projects',
+                  value: provider.projects.length.toString(),
+                  icon: Icons.work_outline,
+                  gradient: AppColors.primaryGradient,
+                ),
+                _StatCard(
+                  title: 'Skills',
+                  value: provider.skills.length.toString(),
+                  icon: Icons.stars_outlined,
+                  gradient: AppColors.secondaryGradient,
+                ),
+                _StatCard(
+                  title: 'Experiences',
+                  value: provider.experiences.length.toString(),
+                  icon: Icons.business_center_outlined,
+                  gradient: AppColors.accentGradient,
+                ),
+                _StatCard(
+                  title: 'Social Links',
+                  value: provider.socialLinks.length.toString(),
+                  icon: Icons.link,
+                  gradient: AppColors.successGradient,
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 48),
+            const SizedBox(height: 48),
 
-              // Management Cards
-              Text(
-                'Manage Content',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 24),
+            // Management Cards
+            Text(
+              'Manage Content',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 24),
 
-              Wrap(
-                spacing: 24,
-                runSpacing: 24,
-                children: [
-                  _ManagementCard(
-                    title: 'Personal Info',
-                    description: 'Update your name, bio, and contact details',
-                    icon: Icons.person_outline,
-                    onTap: () => context.go('/personal-info'),
-                  ),
-                  _ManagementCard(
-                    title: 'Skills',
-                    description: 'Add and manage your skills',
-                    icon: Icons.psychology_outlined,
-                    onTap: () => context.go('/skills'),
-                  ),
-                  _ManagementCard(
-                    title: 'Projects',
-                    description: 'Showcase your work and projects',
-                    icon: Icons.folder_outlined,
-                    onTap: () => context.go('/projects'),
-                  ),
-                  _ManagementCard(
-                    title: 'Experience',
-                    description: 'Add work and education history',
-                    icon: Icons.work_history_outlined,
-                    onTap: () => context.go('/experience'),
-                  ),
-                  _ManagementCard(
-                    title: 'Social Links',
-                    description: 'Connect your social media profiles',
-                    icon: Icons.share_outlined,
-                    onTap: () => context.go('/social-links'),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            Wrap(
+              spacing: 24,
+              runSpacing: 24,
+              children: [
+                _ManagementCard(
+                  title: 'Personal Info',
+                  description: 'Update your name, bio, and contact details',
+                  icon: Icons.person_outline,
+                  onTap: () => context.go('/personal-info'),
+                ),
+                _ManagementCard(
+                  title: 'Skills',
+                  description: 'Add and manage your skills',
+                  icon: Icons.psychology_outlined,
+                  onTap: () => context.go('/skills'),
+                ),
+                _ManagementCard(
+                  title: 'Projects',
+                  description: 'Showcase your work and projects',
+                  icon: Icons.folder_outlined,
+                  onTap: () => context.go('/projects'),
+                ),
+                _ManagementCard(
+                  title: 'Experience',
+                  description: 'Add work and education history',
+                  icon: Icons.work_history_outlined,
+                  onTap: () => context.go('/experience'),
+                ),
+                _ManagementCard(
+                  title: 'Social Links',
+                  description: 'Connect your social media profiles',
+                  icon: Icons.share_outlined,
+                  onTap: () => context.go('/social-links'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

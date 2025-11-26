@@ -6,6 +6,8 @@ class Project {
   final List<String> technologies;
   final String projectUrl;
   final String githubUrl;
+  final String playStoreUrl;
+  final String appStoreUrl;
   final DateTime? startDate;
   final DateTime? endDate;
   final bool isFeatured;
@@ -18,6 +20,8 @@ class Project {
     required this.technologies,
     this.projectUrl = '',
     this.githubUrl = '',
+    this.playStoreUrl = '',
+    this.appStoreUrl = '',
     this.startDate,
     this.endDate,
     this.isFeatured = false,
@@ -32,6 +36,8 @@ class Project {
       'technologies': technologies,
       'projectUrl': projectUrl,
       'githubUrl': githubUrl,
+      'playStoreUrl': playStoreUrl,
+      'appStoreUrl': appStoreUrl,
       'startDate': startDate?.toIso8601String(),
       'endDate': endDate?.toIso8601String(),
       'isFeatured': isFeatured,
@@ -47,9 +53,10 @@ class Project {
       technologies: List<String>.from(json['technologies'] ?? []),
       projectUrl: json['projectUrl'] ?? '',
       githubUrl: json['githubUrl'] ?? '',
-      startDate: json['startDate'] != null
-          ? DateTime.parse(json['startDate'])
-          : null,
+      playStoreUrl: json['playStoreUrl'] ?? '',
+      appStoreUrl: json['appStoreUrl'] ?? '',
+      startDate:
+          json['startDate'] != null ? DateTime.parse(json['startDate']) : null,
       endDate: json['endDate'] != null ? DateTime.parse(json['endDate']) : null,
       isFeatured: json['isFeatured'] ?? false,
     );
@@ -63,6 +70,8 @@ class Project {
     List<String>? technologies,
     String? projectUrl,
     String? githubUrl,
+    String? playStoreUrl,
+    String? appStoreUrl,
     DateTime? startDate,
     DateTime? endDate,
     bool? isFeatured,
@@ -75,6 +84,8 @@ class Project {
       technologies: technologies ?? this.technologies,
       projectUrl: projectUrl ?? this.projectUrl,
       githubUrl: githubUrl ?? this.githubUrl,
+      playStoreUrl: playStoreUrl ?? this.playStoreUrl,
+      appStoreUrl: appStoreUrl ?? this.appStoreUrl,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       isFeatured: isFeatured ?? this.isFeatured,

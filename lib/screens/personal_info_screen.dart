@@ -90,99 +90,96 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextField(
-                  label: 'Full Name',
-                  controller: _nameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextField(
+                label: 'Full Name',
+                controller: _nameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+        
+              CustomTextField(
+                label: 'Professional Title',
+                hint: 'e.g., Flutter Developer',
+                controller: _titleController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your title';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+        
+              CustomTextField(
+                label: 'Bio',
+                hint: 'Tell us about yourself',
+                controller: _bioController,
+                maxLines: 4,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your bio';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+        
+              CustomTextField(
+                label: 'Profile Photo URL',
+                hint: 'https://example.com/photo.jpg',
+                controller: _photoUrlController,
+                keyboardType: TextInputType.url,
+              ),
+              const SizedBox(height: 20),
+        
+              CustomTextField(
+                label: 'Email',
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value != null && value.isNotEmpty) {
+                    if (!value.contains('@')) {
+                      return 'Please enter a valid email';
                     }
-                    return null;
-                  },
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+        
+              CustomTextField(
+                label: 'Phone',
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 20),
+        
+              CustomTextField(
+                label: 'Location',
+                hint: 'City, Country',
+                controller: _locationController,
+              ),
+              const SizedBox(height: 32),
+        
+              SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                  text: 'Save Changes',
+                  onPressed: _save,
+                  isLoading: _isLoading,
                 ),
-                const SizedBox(height: 20),
-
-                CustomTextField(
-                  label: 'Professional Title',
-                  hint: 'e.g., Flutter Developer',
-                  controller: _titleController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your title';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-
-                CustomTextField(
-                  label: 'Bio',
-                  hint: 'Tell us about yourself',
-                  controller: _bioController,
-                  maxLines: 4,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your bio';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-
-                CustomTextField(
-                  label: 'Profile Photo URL',
-                  hint: 'https://example.com/photo.jpg',
-                  controller: _photoUrlController,
-                  keyboardType: TextInputType.url,
-                ),
-                const SizedBox(height: 20),
-
-                CustomTextField(
-                  label: 'Email',
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      if (!value.contains('@')) {
-                        return 'Please enter a valid email';
-                      }
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-
-                CustomTextField(
-                  label: 'Phone',
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                ),
-                const SizedBox(height: 20),
-
-                CustomTextField(
-                  label: 'Location',
-                  hint: 'City, Country',
-                  controller: _locationController,
-                ),
-                const SizedBox(height: 32),
-
-                SizedBox(
-                  width: double.infinity,
-                  child: CustomButton(
-                    text: 'Save Changes',
-                    onPressed: _save,
-                    isLoading: _isLoading,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

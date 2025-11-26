@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import 'loading_widgets.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -24,6 +25,9 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color onPrimaryColor = isOutlined
+        ? (isDark ? AppColors.darkPrimary : AppColors.lightPrimary)
+        : Colors.white;
 
     return SizedBox(
       width: width,
@@ -37,17 +41,13 @@ class CustomButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: isLoading ? null : onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: isOutlined
-                ? Colors.transparent
-                : (color ?? Colors.transparent),
-            foregroundColor: isOutlined
-                ? (isDark ? AppColors.darkPrimary : AppColors.lightPrimary)
-                : Colors.white,
+            backgroundColor:
+                isOutlined ? Colors.transparent : (color ?? Colors.transparent),
+            foregroundColor: onPrimaryColor,
             side: isOutlined
                 ? BorderSide(
-                    color: isDark
-                        ? AppColors.darkPrimary
-                        : AppColors.lightPrimary,
+                    color:
+                        isDark ? AppColors.darkPrimary : AppColors.lightPrimary,
                     width: 2,
                   )
                 : null,
@@ -57,12 +57,13 @@ class CustomButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: isLoading
-                ? const SizedBox(
-                    height: 20,
+                ? SizedBox(
                     width: 20,
-                    child: CircularProgressIndicator(
+                    height: 20,
+                    child: GradientCircularLoader(
+                      size: 20,
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      color: onPrimaryColor,
                     ),
                   )
                 : Row(

@@ -11,6 +11,12 @@ class PortfolioProvider with ChangeNotifier {
 
   PortfolioProvider(this._storage) {
     _loadData();
+    // Listen to sync status changes
+    _storage.setOnSyncStatusChanged((status, error) {
+      _syncStatus = status;
+      _syncError = error;
+      notifyListeners();
+    });
   }
 
   // State
@@ -20,6 +26,8 @@ class PortfolioProvider with ChangeNotifier {
   List<Experience> _experiences = [];
   List<SocialLink> _socialLinks = [];
   bool _isLoading = false;
+  SyncStatus _syncStatus = SyncStatus.idle;
+  String? _syncError;
 
   // Getters
   PersonalInfo get personalInfo => _personalInfo;
@@ -28,6 +36,17 @@ class PortfolioProvider with ChangeNotifier {
   List<Experience> get experiences => List.unmodifiable(_experiences);
   List<SocialLink> get socialLinks => List.unmodifiable(_socialLinks);
   bool get isLoading => _isLoading;
+  SyncStatus get syncStatus => _syncStatus;
+  String? get syncError => _syncError;
+  bool get isSyncing => _syncStatus == SyncStatus.syncing;
+  bool get hasSyncError => _syncStatus == SyncStatus.error;
+
+  // Clear error
+  void clearSyncError() {
+    _syncError = null;
+    _syncStatus = SyncStatus.idle;
+    notifyListeners();
+  }
 
   // Categorized skills
   Map<String, List<Skill>> get skillsByCategory {
@@ -58,11 +77,16 @@ class PortfolioProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    _personalInfo = _storage.getPersonalInfo();
-    _skills = _storage.getSkills();
-    _projects = _storage.getProjects();
-    _experiences = _storage.getExperiences();
-    _socialLinks = _storage.getSocialLinks();
+    try {
+      _personalInfo = await _storage.getPersonalInfo();
+      _skills = await _storage.getSkills();
+      _projects = await _storage.getProjects();
+      _experiences = await _storage.getExperiences();
+      _socialLinks = await _storage.getSocialLinks();
+    } catch (e) {
+      print('Error loading data: $e');
+      // Keep existing data or defaults
+    }
 
     _isLoading = false;
     notifyListeners();
@@ -78,76 +102,76 @@ class PortfolioProvider with ChangeNotifier {
   // Skill Methods
   Future<void> addSkill(Skill skill) async {
     await _storage.addSkill(skill);
-    _skills = _storage.getSkills();
+    _skills = await _storage.getSkills();
     notifyListeners();
   }
 
   Future<void> updateSkill(Skill skill) async {
     await _storage.updateSkill(skill);
-    _skills = _storage.getSkills();
+    _skills = await _storage.getSkills();
     notifyListeners();
   }
 
   Future<void> deleteSkill(String id) async {
     await _storage.deleteSkill(id);
-    _skills = _storage.getSkills();
+    _skills = await _storage.getSkills();
     notifyListeners();
   }
 
   // Project Methods
   Future<void> addProject(Project project) async {
     await _storage.addProject(project);
-    _projects = _storage.getProjects();
+    _projects = await _storage.getProjects();
     notifyListeners();
   }
 
   Future<void> updateProject(Project project) async {
     await _storage.updateProject(project);
-    _projects = _storage.getProjects();
+    _projects = await _storage.getProjects();
     notifyListeners();
   }
 
   Future<void> deleteProject(String id) async {
     await _storage.deleteProject(id);
-    _projects = _storage.getProjects();
+    _projects = await _storage.getProjects();
     notifyListeners();
   }
 
   // Experience Methods
   Future<void> addExperience(Experience experience) async {
     await _storage.addExperience(experience);
-    _experiences = _storage.getExperiences();
+    _experiences = await _storage.getExperiences();
     notifyListeners();
   }
 
   Future<void> updateExperience(Experience experience) async {
     await _storage.updateExperience(experience);
-    _experiences = _storage.getExperiences();
+    _experiences = await _storage.getExperiences();
     notifyListeners();
   }
 
   Future<void> deleteExperience(String id) async {
     await _storage.deleteExperience(id);
-    _experiences = _storage.getExperiences();
+    _experiences = await _storage.getExperiences();
     notifyListeners();
   }
 
   // Social Link Methods
   Future<void> addSocialLink(SocialLink link) async {
     await _storage.addSocialLink(link);
-    _socialLinks = _storage.getSocialLinks();
+    _socialLinks = await _storage.getSocialLinks();
     notifyListeners();
   }
 
   Future<void> updateSocialLink(SocialLink link) async {
     await _storage.updateSocialLink(link);
-    _socialLinks = _storage.getSocialLinks();
+    _socialLinks = await _storage.getSocialLinks();
     notifyListeners();
   }
 
   Future<void> deleteSocialLink(String id) async {
     await _storage.deleteSocialLink(id);
-    _socialLinks = _storage.getSocialLinks();
+    _socialLinks = await _storage.getSocialLinks();
     notifyListeners();
   }
 

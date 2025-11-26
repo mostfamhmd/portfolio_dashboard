@@ -71,73 +71,69 @@ class _SocialLinksScreenState extends State<SocialLinksScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: links.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.share_outlined, size: 64),
-                      const SizedBox(height: 16),
-                      const Text('No social links yet'),
-                      const SizedBox(height: 8),
-                      const Text('Add your social media profiles'),
-                    ],
-                  ),
-                )
-              : Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: links.map((link) {
-                    return SizedBox(
-                      width: 350,
-                      child: GradientCard(
-                        hasGlassEffect: false,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    link.platform,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleLarge,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    link.url,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodySmall,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Row(
+        child: links.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.share_outlined, size: 64),
+                    const SizedBox(height: 16),
+                    const Text('No social links yet'),
+                    const SizedBox(height: 8),
+                    const Text('Add your social media profiles'),
+                  ],
+                ),
+              )
+            : Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: links.map((link) {
+                  return SizedBox(
+                    width: 350,
+                    child: GradientCard(
+                      hasGlassEffect: false,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () =>
-                                      _showAddEditDialog(link: link),
+                                Text(
+                                  link.platform,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge,
                                 ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () => _deleteLink(link.id),
+                                const SizedBox(height: 4),
+                                Text(
+                                  link.url,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodySmall,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () => _showAddEditDialog(link: link),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () => _deleteLink(link.id),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    );
-                  }).toList(),
-                ),
-        ),
+                    ),
+                  );
+                }).toList(),
+              ),
       ),
     );
   }
@@ -248,7 +244,6 @@ class _SocialLinkDialogState extends State<_SocialLinkDialog> {
                 }).toList(),
               ),
               const SizedBox(height: 16),
-
               CustomTextField(
                 label: 'URL',
                 controller: _urlController,

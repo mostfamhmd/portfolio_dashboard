@@ -72,89 +72,84 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: experiences.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.work_history_outlined, size: 64),
-                      const SizedBox(height: 16),
-                      const Text('No experience yet'),
-                      const SizedBox(height: 8),
-                      const Text('Add your work or education history'),
-                    ],
-                  ),
-                )
-              : Column(
-                  children: experiences.map((exp) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: GradientCard(
-                        hasGlassEffect: false,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        exp.title,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        exp.organization,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleMedium,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        '${DateFormat('MMM yyyy').format(exp.startDate)} - ${exp.isCurrent ? 'Present' : DateFormat('MMM yyyy').format(exp.endDate!)}',
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodySmall,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
+        child: experiences.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.work_history_outlined, size: 64),
+                    const SizedBox(height: 16),
+                    const Text('No experience yet'),
+                    const SizedBox(height: 8),
+                    const Text('Add your work or education history'),
+                  ],
+                ),
+              )
+            : Column(
+                children: experiences.map((exp) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: GradientCard(
+                      hasGlassEffect: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () =>
-                                          _showAddEditDialog(experience: exp),
+                                    Text(
+                                      exp.title,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge,
                                     ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () =>
-                                          _deleteExperience(exp.id),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      exp.organization,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '${DateFormat('MMM yyyy').format(exp.startDate)} - ${exp.isCurrent ? 'Present' : DateFormat('MMM yyyy').format(exp.endDate!)}',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall,
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              exp.description,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () =>
+                                        _showAddEditDialog(experience: exp),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () => _deleteExperience(exp.id),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            exp.description,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
                       ),
-                    );
-                  }).toList(),
-                ),
-        ),
+                    ),
+                  );
+                }).toList(),
+              ),
       ),
     );
   }
@@ -251,8 +246,7 @@ class _ExperienceDialogState extends State<_ExperienceDialog> {
 
     final provider = context.read<PortfolioProvider>();
     final experience = Experience(
-      id:
-          widget.experience?.id ??
+      id: widget.experience?.id ??
           DateTime.now().millisecondsSinceEpoch.toString(),
       title: _titleController.text.trim(),
       organization: _organizationController.text.trim(),
@@ -310,7 +304,6 @@ class _ExperienceDialogState extends State<_ExperienceDialog> {
                   },
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
                   label: 'Title',
                   hint: 'e.g., Software Engineer',
@@ -323,7 +316,6 @@ class _ExperienceDialogState extends State<_ExperienceDialog> {
                   },
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
                   label: 'Organization',
                   hint: 'Company or School',
@@ -336,7 +328,6 @@ class _ExperienceDialogState extends State<_ExperienceDialog> {
                   },
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
                   label: 'Description',
                   controller: _descriptionController,
@@ -349,13 +340,11 @@ class _ExperienceDialogState extends State<_ExperienceDialog> {
                   },
                 ),
                 const SizedBox(height: 16),
-
                 CustomTextField(
                   label: 'Location',
                   controller: _locationController,
                 ),
                 const SizedBox(height: 16),
-
                 ListTile(
                   title: Text(
                     _startDate == null
@@ -365,7 +354,6 @@ class _ExperienceDialogState extends State<_ExperienceDialog> {
                   trailing: const Icon(Icons.calendar_today),
                   onTap: () => _selectDate(true),
                 ),
-
                 CheckboxListTile(
                   title: const Text('Currently working/studying here'),
                   value: _isCurrent,
@@ -373,7 +361,6 @@ class _ExperienceDialogState extends State<_ExperienceDialog> {
                     setState(() => _isCurrent = value ?? false);
                   },
                 ),
-
                 if (!_isCurrent)
                   ListTile(
                     title: Text(
