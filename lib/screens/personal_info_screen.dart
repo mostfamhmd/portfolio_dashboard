@@ -22,6 +22,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
   late TextEditingController _locationController;
+  late TextEditingController _cvUrlController;
   bool _isLoading = false;
 
   @override
@@ -37,6 +38,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     _emailController = TextEditingController(text: info.email);
     _phoneController = TextEditingController(text: info.phone);
     _locationController = TextEditingController(text: info.location);
+    _cvUrlController = TextEditingController(text: info.cvUrl);
   }
 
   @override
@@ -48,6 +50,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     _emailController.dispose();
     _phoneController.dispose();
     _locationController.dispose();
+    _cvUrlController.dispose();
     super.dispose();
   }
 
@@ -65,6 +68,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
       email: _emailController.text.trim(),
       phone: _phoneController.text.trim(),
       location: _locationController.text.trim(),
+      cvUrl: _cvUrlController.text.trim(),
     );
 
     await provider.updatePersonalInfo(info);
@@ -168,6 +172,14 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 label: 'Location',
                 hint: 'City, Country',
                 controller: _locationController,
+              ),
+              const SizedBox(height: 20),
+        
+              CustomTextField(
+                label: 'CV URL',
+                hint: 'https://example.com/cv.pdf',
+                controller: _cvUrlController,
+                keyboardType: TextInputType.url,
               ),
               const SizedBox(height: 32),
         

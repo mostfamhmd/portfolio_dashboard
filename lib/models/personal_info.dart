@@ -6,6 +6,7 @@ class PersonalInfo {
   final String email;
   final String phone;
   final String location;
+  final String cvUrl;
 
   PersonalInfo({
     required this.name,
@@ -15,6 +16,7 @@ class PersonalInfo {
     required this.email,
     required this.phone,
     required this.location,
+    required this.cvUrl,
   });
 
   Map<String, dynamic> toJson() {
@@ -26,6 +28,7 @@ class PersonalInfo {
       'email': email,
       'phone': phone,
       'location': location,
+      'cvUrl': cvUrl,
     };
   }
 
@@ -38,6 +41,7 @@ class PersonalInfo {
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
       location: json['location'] ?? '',
+      cvUrl: json['cvUrl'] ?? '',
     );
   }
 
@@ -49,6 +53,7 @@ class PersonalInfo {
     String? email,
     String? phone,
     String? location,
+    String? cvUrl,
   }) {
     return PersonalInfo(
       name: name ?? this.name,
@@ -58,6 +63,7 @@ class PersonalInfo {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       location: location ?? this.location,
+      cvUrl: cvUrl ?? this.cvUrl,
     );
   }
 
@@ -69,5 +75,6 @@ class PersonalInfo {
     email: '',
     phone: '',
     location: '',
+    cvUrl: '',
   );
 }
