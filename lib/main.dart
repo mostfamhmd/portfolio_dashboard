@@ -26,7 +26,7 @@ void main() async {
   runApp(PortfolioDashboardApp(storageService: storageService));
 }
 
-final _router = GoRouter(
+final _router = GoRouter( 
   initialLocation: '/',
   routes: [
     GoRoute(
